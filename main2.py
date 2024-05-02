@@ -67,6 +67,25 @@ class ChessPiece:
     def draw(self):
         screen.blit(self.image, self.position)
 
+    def __deepcopy__(self, memo):
+        # Create a new instance of ChessPiece without initializing it.
+        new_piece = ChessPiece.__new__(ChessPiece)
+
+        # Add the new instance to the memo dictionary to support cyclic references.
+        memo[id(self)] = new_piece
+
+        # Explicitly copy the image attribute as a shallow copy (reference).
+        new_piece.image = self.image
+
+        # Deep copy the rest of the attributes.
+        new_piece.color = copy.deepcopy(self.color, memo)
+        new_piece.position = copy.deepcopy(self.position, memo)
+        new_piece.Piece_type = copy.deepcopy(self.Piece_type, memo)
+        new_piece.move_count = copy.deepcopy(self.move_count, memo)
+        new_piece.move_options = copy.deepcopy(self.move_options, memo)
+
+        return new_piece
+
 
 # load in game piece images (queen, king, rook, bishop, knight, pawn) x 2
 black_queen = pygame.image.load('assets/images/black queen.png')
@@ -359,9 +378,10 @@ class bord_state:
             out = self.__check_king(piece)
 
         if check_for_bad_moves:
-            bad_moves = check_if_move_puts_king_in_check(piece, out)
-            for possible_move in bad_moves:
-                out.remove(possible_move)
+            bad_moves = self.check_if_move_puts_king_in_check(piece, out)
+            if bad_moves != []:
+                for possible_move in bad_moves:
+                    out.remove(possible_move)
 
         return out
 
@@ -380,33 +400,29 @@ class bord_state:
                     return True
         return False
 
+    def check_if_move_puts_king_in_check(self,piece, move_list):
+        out=[]
+        return out
+
+        for play in move_list:
+            new_bord = copy(self)
+            new_bord.move(piece, play)
+            if new_bord.is_there_a_check_on(piece.color):
+                out += [play]
+
+        return out
+
+
+
+
+
+
+
 
 bord = bord_state(white_pieces, black_pieces, white_locations, black_locations, 0)
 
 
 # to do: change the locations of the pieces to a copy of the list
-def check_if_move_puts_king_in_check(piece, move_list):
-    out = []
-    return out
-    if piece.color == 'white':
-        white_locations_dup = copy.deepcopy(white_locations)
-        white_locations_dup.remove(piece.position)
-
-        for move in move_list:
-
-            # check if move puts white king in check
-            for piece in black_pieces.values():
-                # disregard all the pieces that are pawns , knights, and kings they can't put the king in check from opponent move
-                if piece.Piece_type == Piece_type.KING or piece.Piece_type == Piece_type.KNIGHT or piece.Piece_type == Piece_type.PAWN:
-                    continue
-                # change the position of the piece to the new position
-                white_locations_dup.append(move)
-
-                if white_king_location in piece.get_move_options(False, white_locations_dup, None):
-                    out.append(move)
-                # change the position of the piece back to the original position
-
-                white_locations_dup.remove(move)
 
 
 
@@ -414,13 +430,6 @@ def check_if_move_puts_king_in_check(piece, move_list):
 
 
 
-
-
-    else:
-        black_locations_dup = copy.deepcopy(black_locations)
-        black_locations_dup.remove(piece.position)
-
-    return out
 
 
 # 0 - whites turn no selection: 1-whites turn piece selected: 2- black turn no selection, 3 - black turn piece selected
