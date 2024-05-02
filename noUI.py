@@ -3,7 +3,7 @@ import random
 import tkinter as tk
 from tkinter import messagebox
 import copy
-
+# 13254646
 class Piece_type(Enum):
     Q = 1
     K = 2
