@@ -206,17 +206,17 @@ class BordState:
         piece_type = piece.piece_type
 
         if piece_type == Piece_type.P:
-            out = self.get_pawn_moves(piece)
+            temp = self.get_pawn_moves(piece)
         elif piece_type == Piece_type.N:
-            out = self.get_knight_moves(piece)
+            temp = self.get_knight_moves(piece)
         elif piece_type == Piece_type.B:
-            out = self.get_bishop_moves(piece)
+            temp = self.get_bishop_moves(piece)
         elif piece_type == Piece_type.R:
-            out = self.get_rook_moves(piece)
+            temp = self.get_rook_moves(piece)
         elif piece_type == Piece_type.Q:
-            out = self.get_queen_moves(piece)
+            temp = self.get_queen_moves(piece)
         elif piece_type == Piece_type.K:
-            out = self.get_king_moves(piece)
+            temp = self.get_king_moves(piece)
 
         # remove moves that put the king in danger
         if check_test:
@@ -225,32 +225,29 @@ class BordState:
                 enemies_moves += self.get_move_for_location(location,False)  # list of tuples of possible moves for the enemy e.g. [((0, 0), (1, 8)) , ((0, 0), (1, 7)) ...]
 
             if piece.piece_type == Piece_type.K: # king can't move to a position that is under attack
-                for move in out.copy():
+                """for move in temp:
                     bad_move = any([move[1] == x[1] for x in enemies_moves])
                     if bad_move:
-                        out.remove(move)
-            else: #other pieces can't move if it puts the king in danger
-                i=0
-                print(out)
-                for move in out.copy():
-                    ###
-                    x = self.get_piece(move[0])
-                    if x is None:
-                        print(piece)
-                        print('error 1')
-                        print(move)
-                        print(piece.piece_type)
-                        print(self)
-                        print(out)
-                        exit(1)
-                    ###
+                        continue
                     else:
-                        print(f"ok {i}")
-                        i+=1
+                        out.append(move)"""
+                for move in temp:
+                    child = self.creat_child_bord(move, False)
+                    if not child.is_check(piece.color):
+                        out.append(move)
+
+
+
+            else: #other pieces can't move if it puts the king in danger
+
+                for move in temp:
 
                     child = self.creat_child_bord(move, False)
-                    if child.is_check(piece.color):
-                        out.remove(move)
+                    if not child.is_check(piece.color):
+                        out.append(move)
+        else:
+            out = temp
+
 
 
 
@@ -274,26 +271,46 @@ class BordState:
 
 
         # add castling moves
+
+        enemies_moves = []
         if piece.move_count == 0:
             if color == Color.BLACK:
                 if self.get_piece((7, 1)) is None and self.get_piece((7, 2)) is None and self.get_piece((7, 3)) is None:
                     if self.get_piece((7, 0)) is not None and self.get_piece((7, 0)).move_count == 0:
-                        moves.append(((7, 4), (7, 2)))
+                        enemies_moves = self.get_enemies_moves(Color.WHITE)
+                        if not any(move[1] in [(7,4),(7,3),(7,2)] for move in enemies_moves):
+
+                            moves.append(((7, 4), (7, 2)))
+
                 if self.get_piece((7, 5)) is None and self.get_piece((7, 6)) is None:
                     if self.get_piece((7, 7)) is not None and self.get_piece((7, 7)).move_count == 0:
-                        moves.append(((7, 4), (7, 6)))
+                        if enemies_moves == []:
+                            enemies_moves = self.get_enemies_moves(Color.WHITE)
+                        if not any(move[1] in [(7,4),(7,5),(7,6)] for move in enemies_moves):
+                            moves.append(((7, 4), (7, 6)))
+
             else:
                 if self.get_piece((0, 1)) is None and self.get_piece((0, 2)) is None and self.get_piece((0, 3)) is None:
                     if self.get_piece((0, 0)) is not None and self.get_piece((0, 0)).move_count == 0:
-                        moves.append(((0, 4), (0, 2)))
+                        enemies_moves = self.get_enemies_moves(Color.BLACK)
+                        if not any(move[1] in [(0,4),(0,3),(0,2)] for move in enemies_moves):
+                            moves.append(((0, 4), (0, 2)))
+
                 if self.get_piece((0, 5)) is None and self.get_piece((0, 6)) is None:
                     if self.get_piece((0, 7)) is not None and self.get_piece((0, 7)).move_count == 0:
-                        moves.append(((0, 4), (0, 6)))
+                        if enemies_moves == []:
+                            enemies_moves = self.get_enemies_moves(Color.BLACK)
+                        if not any(move[1] in [(0,4),(0,5),(0,6)] for move in enemies_moves):
+                            moves.append(((0, 4), (0, 6)))
         return moves
 
 
 
-
+    def get_enemies_moves(self, color):
+        moves = []
+        for location in self.black_locations if color == Color.WHITE else self.white_locations:
+            moves += self.get_move_for_location(location,False)
+        return moves
 
 
     def get_pawn_moves(self, piece):
