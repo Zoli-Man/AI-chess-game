@@ -4,6 +4,7 @@ import tkinter as tk
 from tkinter import messagebox
 import copy
 # 13254646
+play_with_computer = True
 class Piece_type(Enum):
     Q = 1
     K = 2
@@ -23,6 +24,7 @@ class ChessPiece:
         self.color = color
         self.position = position
         self.move_count = 0
+        self.pawn_double_move_at_turn = 0
         #self.move_options = []
 
     def move(self, new_position):
@@ -69,25 +71,26 @@ class BordState:
             self.turn = Color.WHITE
             self.move_count = 0
             #initialize the board with pieces
-            self.pieces[(0, 0)] = ChessPiece(Piece_type.R, Color.WHITE, (0, 0))
-            self.pieces[(0, 1)] = ChessPiece(Piece_type.N, Color.WHITE, (0, 1))
-            self.pieces[(0, 2)] = ChessPiece(Piece_type.B, Color.WHITE, (0, 2))
-            self.pieces[(0, 3)] = ChessPiece(Piece_type.Q, Color.WHITE, (0, 3))
-            self.pieces[(0, 4)] = ChessPiece(Piece_type.K, Color.WHITE, (0, 4))
-            self.pieces[(0, 5)] = ChessPiece(Piece_type.B, Color.WHITE, (0, 5))
-            self.pieces[(0, 6)] = ChessPiece(Piece_type.N, Color.WHITE, (0, 6))
-            self.pieces[(0, 7)] = ChessPiece(Piece_type.R, Color.WHITE, (0, 7))
+            self.pieces[(0, 0)] = ChessPiece(Piece_type.R, Color.BLACK, (0, 0))
+            self.pieces[(0, 1)] = ChessPiece(Piece_type.N, Color.BLACK, (0, 1))
+            self.pieces[(0, 2)] = ChessPiece(Piece_type.B, Color.BLACK, (0, 2))
+            self.pieces[(0, 3)] = ChessPiece(Piece_type.Q, Color.BLACK, (0, 3))
+            self.pieces[(0, 4)] = ChessPiece(Piece_type.K, Color.BLACK, (0, 4))
+            self.pieces[(0, 5)] = ChessPiece(Piece_type.B, Color.BLACK, (0, 5))
+            self.pieces[(0, 6)] = ChessPiece(Piece_type.N, Color.BLACK, (0, 6))
+            self.pieces[(0, 7)] = ChessPiece(Piece_type.R, Color.BLACK, (0, 7))
             for i in range(8):
-                self.pieces[(1, i)] = ChessPiece(Piece_type.P, Color.WHITE, (1, i))
-                self.pieces[(6, i)] = ChessPiece(Piece_type.P, Color.BLACK, (6, i))
-            self.pieces[(7, 0)] = ChessPiece(Piece_type.R, Color.BLACK, (7, 0))
-            self.pieces[(7, 1)] = ChessPiece(Piece_type.N, Color.BLACK, (7, 1))
-            self.pieces[(7, 2)] = ChessPiece(Piece_type.B, Color.BLACK, (7, 2))
-            self.pieces[(7, 3)] = ChessPiece(Piece_type.Q, Color.BLACK, (7, 3))
-            self.pieces[(7, 4)] = ChessPiece(Piece_type.K, Color.BLACK, (7, 4))
-            self.pieces[(7, 5)] = ChessPiece(Piece_type.B, Color.BLACK, (7, 5))
-            self.pieces[(7, 6)] = ChessPiece(Piece_type.N, Color.BLACK, (7, 6))
-            self.pieces[(7, 7)] = ChessPiece(Piece_type.R, Color.BLACK, (7, 7))
+                self.pieces[(1, i)] = ChessPiece(Piece_type.P, Color.BLACK, (1, i))
+                self.pieces[(6, i)] = ChessPiece(Piece_type.P, Color.WHITE, (6, i))
+            self.pieces[(7, 0)] = ChessPiece(Piece_type.R, Color.WHITE, (7, 0))
+            self.pieces[(7, 1)] = ChessPiece(Piece_type.N, Color.WHITE, (7, 1))
+            self.pieces[(7, 2)] = ChessPiece(Piece_type.B, Color.WHITE, (7, 2))
+            self.pieces[(7, 3)] = ChessPiece(Piece_type.Q, Color.WHITE, (7, 3))
+            self.pieces[(7, 4)] = ChessPiece(Piece_type.K, Color.WHITE, (7, 4))
+            self.pieces[(7, 5)] = ChessPiece(Piece_type.B, Color.WHITE, (7, 5))
+            self.pieces[(7, 6)] = ChessPiece(Piece_type.N, Color.WHITE, (7, 6))
+            self.pieces[(7, 7)] = ChessPiece(Piece_type.R, Color.WHITE
+                                             , (7, 7))
 
             self.black_locations = [x for x in self.pieces if self.pieces[x].color == Color.BLACK]
             self.white_locations = [x for x in self.pieces if self.pieces[x].color == Color.WHITE]
@@ -129,6 +132,21 @@ class BordState:
             self.pieces[(start[0], 3 if left else 5)] = rook_piece
             del self.pieces[(start[0], 0 if left else 7)]
 
+        if piece.piece_type == Piece_type.P:
+            if abs(start[0] - end[0]) == 2:
+                piece.pawn_double_move_at_turn = self.move_count + 1
+            if end[0] == 0 or end[0] == 7: # promotion
+                piece.piece_type = Piece_type.Q
+
+            if end[1] != start[1] and self.get_piece(end) is None: # en passant
+                # remove the pawn that was captured
+                cuptured_location = (end[0]+1 ,end[1]) if piece.color == Color.WHITE else (end[0]-1 ,end[1])
+                del self.pieces[cuptured_location]
+                if piece.color == Color.WHITE:
+                    self.black_locations.remove(cuptured_location)
+                else:
+                    self.white_locations.remove(cuptured_location)
+
         # check if the move is a capture
 
         is_capture = self.get_piece(end) is not None and self.get_piece(end).color != piece.color
@@ -138,16 +156,23 @@ class BordState:
             self.black_locations.append(end)
             if is_capture:
                 self.white_locations.remove(end)
+            if move_is_castling:
+                self.black_locations.remove((start[0], 0 if left else 7))
+                self.black_locations.append((start[0], 3 if left else 5))
+
         else:
             self.white_locations.remove(start)
             self.white_locations.append(end)
             if is_capture:
                 self.black_locations.remove(end)
+            if move_is_castling:
+                self.white_locations.remove((start[0], 0 if left else 7))
+                self.white_locations.append((start[0], 3 if left else 5))
 
 
 
 
-        # update the locations of the pieces
+        # update the locations of the pieces dictionary
 
         piece.move(end)
         self.pieces[end] = piece
@@ -196,7 +221,7 @@ class BordState:
     # get all the possible moves for a piece
     # toco: add en passant
     # todo: add promotion
-    # todo: add logic for check and prevent pieces from moving if it puts the king in check
+
 
     def get_move_for_location(self, position,check_test = True):
         piece = self.get_piece(position)
@@ -274,7 +299,7 @@ class BordState:
 
         enemies_moves = []
         if piece.move_count == 0 and check_test:
-            if color == Color.BLACK:
+            if color == Color.WHITE:
                 if self.get_piece((7, 1)) is None and self.get_piece((7, 2)) is None and self.get_piece((7, 3)) is None:
                     if self.get_piece((7, 0)) is not None and self.get_piece((7, 0)).move_count == 0:
                         enemies_moves = self.get_enemies_moves(color)
@@ -317,17 +342,36 @@ class BordState:
         moves = []
         x, y = piece.position
         color = piece.color
-        direction = 1 if color == Color.WHITE else -1
-        if self.get_piece((x + direction, y)) is None:
+        direction = -1 if color == Color.WHITE else 1
+        if self.get_piece((x + direction, y)) is None: # move forward one step
             moves.append(((x, y), (x + direction, y)))
-            if piece.move_count == 0 and self.get_piece((x + 2 * direction, y)) is None:
+            if piece.move_count == 0 and self.get_piece((x + 2 * direction, y)) is None: # move forward two steps
                 moves.append(((x, y), (x + 2 * direction, y)))
-        if y > 0 and self.get_piece((x + direction, y - 1)) is not None:
+        if y > 0 and self.get_piece((x + direction, y - 1)) is not None and self.get_piece((x + direction, y - 1)).color != color : # capture left
             moves.append(((x, y), (x + direction, y - 1)))
-        if y < 7 and self.get_piece((x + direction, y + 1)) is not None:
+        if y < 7 and self.get_piece((x + direction, y + 1)) is not None and self.get_piece((x + direction, y + 1)).color != color: # capture right
             moves.append(((x, y), (x + direction, y + 1)))
 
+        # add en passant
+
+        if color == Color.WHITE and x == 3:
+            left_piece = self.get_piece((x, y - 1))
+            right_piece = self.get_piece((x, y + 1))
+            if left_piece is not None and left_piece.piece_type == Piece_type.P and left_piece.color != color and left_piece.move_count == 1 and left_piece.pawn_double_move_at_turn == self.move_count:
+                moves.append(((x, y), (x + direction, y - 1)))
+            elif right_piece is not None and right_piece.piece_type == Piece_type.P and right_piece.color != color and right_piece.move_count == 1 and right_piece.pawn_double_move_at_turn == self.move_count:
+                moves.append(((x, y), (x + direction, y + 1)))
+        elif color == Color.BLACK and x == 4:
+            left_piece = self.get_piece((x, y - 1))
+            right_piece = self.get_piece((x, y + 1))
+            if left_piece is not None and left_piece.piece_type == Piece_type.P and left_piece.color != color and left_piece.move_count == 1 and left_piece.pawn_double_move_at_turn == self.move_count:
+                moves.append(((x, y), (x + direction, y - 1)))
+            elif right_piece is not None and right_piece.piece_type == Piece_type.P and right_piece.color != color and right_piece.move_count == 1 and right_piece.pawn_double_move_at_turn == self.move_count:
+                moves.append(((x, y), (x + direction, y + 1)))
+
         return moves
+
+
 
     def get_knight_moves(self, piece):
         moves = []
@@ -444,6 +488,7 @@ class ChessGUI:
         self.buttons = {}
         self.create_chess_board()
 
+
     def create_chess_board(self):
         board_frame = tk.Frame(self.root)
         board_frame.pack()
@@ -463,19 +508,20 @@ class ChessGUI:
     def update_board(self):
         # Clear all buttons before updating to prevent old piece icons from persisting
         for pos in self.buttons:
-            self.buttons[pos].config(text=' ', bg='white' if (pos[0] + pos[1]) % 2 == 0 else 'gray')
+            self.buttons[pos].config(text=' ', bg='dark khaki' if (pos[0] + pos[1]) % 2 == 0 else 'dark green')
             # Update all buttons with current pieces, changing the text color based on the piece color
             for position, piece in self.board_state.pieces.items():
                 if piece is not None:
                     symbol = str(piece)
-                    text_color = 'red' if piece.color == Color.BLACK else 'black'
+                    text_color = 'black' if piece.color == Color.BLACK else 'white'
                     self.buttons[position].config(text=symbol, foreground=text_color)
+
 
     def on_click(self, pos):
         if not self.selected_piece:
             if self.board_state.get_piece(pos):
                 self.selected_piece = pos
-                self.buttons[pos].config(bg='green')
+                self.buttons[pos].config(bg='blue')
             else:
                 messagebox.showinfo("Invalid", "No piece at this position!")
         else:
@@ -485,7 +531,7 @@ class ChessGUI:
                 self.update_board()
                 self.buttons[self.selected_piece].config(bg='white' if (self.selected_piece[0] + self.selected_piece[1]) % 2 == 0 else 'gray')
                 self.selected_piece = None
-                if self.board_state.turn == Color.BLACK:
+                if self.board_state.turn == Color.BLACK and play_with_computer:
                     self.make_computer_move()
             else:
                 messagebox.showinfo("Invalid", "Invalid move!")
@@ -499,6 +545,9 @@ class ChessGUI:
         if moves:
             move = random.choice(moves)
             self.board_state.move_piece(move)
+        else:
+            messagebox.showinfo("Game Over", "You win!")
+            self.root.quit()
         self.update_board()
 
 
@@ -515,6 +564,8 @@ def main():
     root.mainloop()
 
 if __name__ == "__main__":
+    # add comend line arguments
+
     main()
 
 
