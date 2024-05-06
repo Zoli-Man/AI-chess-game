@@ -3,6 +3,8 @@ import random
 import tkinter as tk
 from tkinter import messagebox
 import copy
+import ai
+
 # 13254646
 play_with_computer = True
 class Piece_type(Enum):
@@ -116,13 +118,13 @@ class BordState:
         end = move[1]
 
 
-        try:
-            move_is_castling = self.pieces.get(start).piece_type == Piece_type.K and abs(start[1] - end[1]) > 1
+        #try:
+        move_is_castling = self.pieces.get(start).piece_type == Piece_type.K and abs(start[1] - end[1]) > 1
 
-        except:
+        """except:
             print(move)
             print(self)
-            exit(1)
+            exit(1)"""
         piece = self.get_piece(start)
         if move_is_castling:
             # move the rook
@@ -539,12 +541,13 @@ class ChessGUI:
                 self.selected_piece = None
 
     def make_computer_move(self):
-        moves = []
-        for location in self.board_state.black_locations:
-            moves += self.board_state.get_move_for_location(location)
-        if moves:
-            move = random.choice(moves)
+        move = ai.chose_move(self.board_state)
+        if move is not None:
+            #move = random.choice(moves)
             self.board_state.move_piece(move)
+
+
+
         else:
             messagebox.showinfo("Game Over", "You win!")
             self.root.quit()
