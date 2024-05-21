@@ -1,0 +1,11 @@
+C:\Users\ozoll\PycharmProjects\chess\chess_ai\target\debug\deps\libquote-13d0b74dcd22a3f6.rmeta: C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\quote-1.0.36\src\lib.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\quote-1.0.36\src\ext.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\quote-1.0.36\src\format.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\quote-1.0.36\src\ident_fragment.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\quote-1.0.36\src\to_tokens.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\quote-1.0.36\src\runtime.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\quote-1.0.36\src\spanned.rs
+
+C:\Users\ozoll\PycharmProjects\chess\chess_ai\target\debug\deps\quote-13d0b74dcd22a3f6.d: C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\quote-1.0.36\src\lib.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\quote-1.0.36\src\ext.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\quote-1.0.36\src\format.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\quote-1.0.36\src\ident_fragment.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\quote-1.0.36\src\to_tokens.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\quote-1.0.36\src\runtime.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\quote-1.0.36\src\spanned.rs
+
+C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\quote-1.0.36\src\lib.rs:
+C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\quote-1.0.36\src\ext.rs:
+C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\quote-1.0.36\src\format.rs:
+C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\quote-1.0.36\src\ident_fragment.rs:
+C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\quote-1.0.36\src\to_tokens.rs:
+C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\quote-1.0.36\src\runtime.rs:
+C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\quote-1.0.36\src\spanned.rs:

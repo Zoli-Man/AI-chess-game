@@ -5,6 +5,7 @@ from tkinter import messagebox
 import copy
 import ai
 
+
 # 13254646
 play_with_computer = True
 class Piece_type(Enum):
@@ -15,12 +16,12 @@ class Piece_type(Enum):
     N = 5
     P = 6
 
-
 class Color(Enum):
     WHITE = 1
     BLACK = 2
-
+#Class of the chess pieces
 class ChessPiece:
+    #initialize the piece
     def __init__(self, piece_type, color,position):
         self.piece_type = piece_type
         self.color = color
@@ -28,14 +29,14 @@ class ChessPiece:
         self.move_count = 0
         self.pawn_double_move_at_turn = 0
         #self.move_options = []
-
+    #move the piece to a new position
     def move(self, new_position):
         # make sure the move is valid
         self.position = new_position
         self.move_count += 1
 
 
-
+    #return the string representation of the piece
     def __str__(self):
         # example: '♔' for white king, '♚' for black king
         if self.color == Color.WHITE:
@@ -64,8 +65,9 @@ class ChessPiece:
                 return '♞'
             elif self.piece_type == Piece_type.P:
                 return '♟'
-
+#Class of the chess board
 class BordState:
+    #initialize the board
     def __init__(self,new_bord = True, dic = None, turn = None, move_count = None):
         if new_bord:
             #make self.pices a dictionary with key as position and value as piece
@@ -213,7 +215,13 @@ class BordState:
         child.move_piece(move)
 
         return child
+    #return a list of all the possible moves for a color
+    def get_all_moves(self,color):
+        moves = []
 
+        for location in self.black_locations if color.value == 2 else self.white_locations:
+            moves += self.get_move_for_location(location)
+        return moves
     def get_king_position(self, color):
         for position, piece in self.pieces.items():
             if piece.piece_type == Piece_type.K and piece.color == color:
@@ -338,6 +346,15 @@ class BordState:
         for location in self.black_locations if my_color == Color.WHITE else self.white_locations:
             moves += self.get_move_for_location(location,False)
         return moves
+
+# check if color is in mate (no possible moves)
+    def is_it_checkmate(self, color):
+        for location in self.black_locations if color == Color.BLACK else self.white_locations:
+            moves = self.get_move_for_location(location)
+            if moves != []:
+                return False
+        return True
+
 
 
     def get_pawn_moves(self, piece):
@@ -535,6 +552,11 @@ class ChessGUI:
                 self.selected_piece = None
                 if self.board_state.turn == Color.BLACK and play_with_computer:
                     self.make_computer_move()
+
+                    self.update_board()
+                    if self.board_state.is_it_checkmate(Color.WHITE):
+                        messagebox.showinfo("Game Over", "You lose!")
+                        self.root.quit()
             else:
                 messagebox.showinfo("Invalid", "Invalid move!")
                 self.buttons[self.selected_piece].config(bg='white' if (self.selected_piece[0] + self.selected_piece[1]) % 2 == 0 else 'gray')
@@ -545,6 +567,13 @@ class ChessGUI:
         if move is not None:
             #move = random.choice(moves)
             self.board_state.move_piece(move)
+            #mark the move on the board
+            self.buttons[move[0]].config(bg='blue')
+            self.buttons[move[1]].config(bg='blue')
+            self.root.update()
+
+
+
 
 
 
