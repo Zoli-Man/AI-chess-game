@@ -48,7 +48,7 @@ impl ChessPiece {
 struct BoardState {
     pieces: HashMap<(i32, i32), ChessPiece>,
     turn: Color,
-    move_count: i32,
+    turn_count: i32,
     black_locations: Vec<(i32, i32)>,
     white_locations: Vec<(i32, i32)>,
 }
@@ -94,7 +94,7 @@ impl BoardState {
         BoardState {
             pieces,
             turn: Color::White,
-            move_count: 0,
+            turn_count: 0,
             black_locations,
             white_locations,
         }
@@ -129,7 +129,7 @@ impl BoardState {
                     piece.piece_type = PieceType::Q;
                 }
                 if (start.0 - end.0).abs() == 2 {
-                    piece.pawn_double_move_at_turn = Some(self.move_count);
+                    piece.pawn_double_move_at_turn = Some(self.turn_count);
                 }
                 // en passant
                 if end.1 != start.1 && self.get_piece(end).is_none() {
@@ -181,7 +181,7 @@ impl BoardState {
             } else {
                 Color::White
             };
-            self.move_count += 1;
+            self.turn_count += 1;
         }
     }
 
@@ -488,13 +488,23 @@ impl BoardState {
 
         let en_passant_row = if piece.color == Color::White { 3 } else { 4 };
         if x == en_passant_row {
+            println!("en passant row");
             let left = (x, y - 1);
             let right = (x, y + 1);
+
             if let Some(left_piece) = self.pieces.get(&left) {
+                println!("left piece: {:?}", left_piece);
+                println!("left piece color: {:?}", left_piece.color);
+                println!("left piece move count: {:?}", left_piece.move_count);
+                println!(
+                    "left piece pawn double move at turn: {:?}",
+                    left_piece.pawn_double_move_at_turn
+                );
+                println!("self move count: {:?}", self.turn_count);
                 if left_piece.piece_type == PieceType::P
                     && left_piece.color != piece.color
                     && left_piece.move_count == 1
-                    && left_piece.pawn_double_move_at_turn == Some(self.move_count)
+                    && left_piece.pawn_double_move_at_turn == Some(self.turn_count - 1)
                 {
                     moves.push((piece.position, (x + direction, y - 1)));
                 }
@@ -503,7 +513,7 @@ impl BoardState {
                 if right_piece.piece_type == PieceType::P
                     && right_piece.color != piece.color
                     && right_piece.move_count == 1
-                    && right_piece.pawn_double_move_at_turn == Some(self.move_count)
+                    && right_piece.pawn_double_move_at_turn == Some(self.turn_count - 1)
                 {
                     moves.push((piece.position, (x + direction, y + 1)));
                 }
