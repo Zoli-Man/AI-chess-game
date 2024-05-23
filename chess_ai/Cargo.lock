@@ -361,6 +361,8 @@ version = "0.1.0"
 dependencies = [
  "maturin",
  "pyo3",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]

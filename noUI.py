@@ -7,7 +7,7 @@ import ai
 
 
 # 13254646
-play_with_computer = True
+play_with_computer = False
 class Piece_type(Enum):
     Q = 1
     K = 2
