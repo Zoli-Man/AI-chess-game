@@ -1,7 +1,7 @@
 import chess_ai
+import time
 
-
-play_with_computer = False
+play_with_computer = True
 # Initialize a new board state
 board = chess_ai.PyBoardState()
 
@@ -10,10 +10,10 @@ board.move_piece((1, 4), (3, 4))  # Move black pawn from e7 to e5
 
 # Get all possible moves for white
 moves = board.get_all_moves(0)
-print(moves)
+#print(moves)
 
 x = board.get_board_as_string()
-print(len(x))
+#print(len(x))
 
 def map_char_to_symbol(char):
     if char == 'P':
@@ -55,7 +55,7 @@ def str_to_list(str):
             list[row][col] = str[i]
             col += 1
     return list
-print(str_to_list(x))
+#print(str_to_list(x))
 
 
 
@@ -135,7 +135,7 @@ class ChessGUI:
                 self.selected_piece = None
                 if self.board_state.get_turn() == 1 and play_with_computer:
                     self.make_computer_move()
-
+                    self.board_list = str_to_list(self.board_state.get_board_as_string())
                     self.update_board()
                     #todo: check if the game is over
                     '''
@@ -149,10 +149,13 @@ class ChessGUI:
                 self.selected_piece = None
 
     def make_computer_move(self):
-        move = ai.chose_move(self.board_state)
+        t1 = time.time()
+        move = self.board_state.get_best_move()
+        t2 = time.time()
+        print(t2-t1)
         if move is not None:
             #move = random.choice(moves)
-            self.board_state.move_piece(move)
+            self.board_state.move_piece(move[0], move[1])
             #mark the move on the board
             self.buttons[move[0]].config(bg='blue')
             self.buttons[move[1]].config(bg='blue')
@@ -166,7 +169,7 @@ class ChessGUI:
         else:
             messagebox.showinfo("Game Over", "You win!")
             self.root.quit()
-        self.update_board()
+        #self.update_board()
 
 
 def main():

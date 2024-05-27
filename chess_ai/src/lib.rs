@@ -99,7 +99,36 @@ impl BoardState {
             white_locations,
         }
     }
-
+    fn get_board_as_string(&self) -> String {
+        let mut board = String::new();
+        for i in 0..8 {
+            for j in 0..8 {
+                let piece = self.get_piece((i, j));
+                match piece {
+                    Some(piece) => {
+                        let piece_char = match piece.piece_type {
+                            PieceType::R => 'r',
+                            PieceType::N => 'n',
+                            PieceType::B => 'b',
+                            PieceType::Q => 'q',
+                            PieceType::K => 'k',
+                            PieceType::P => 'p',
+                        };
+                        let color_char = match piece.color {
+                            Color::White => piece_char.to_ascii_uppercase(),
+                            Color::Black => piece_char,
+                        };
+                        board.push(color_char);
+                    }
+                    None => {
+                        board.push('.');
+                    }
+                }
+            }
+            board.push('\n');
+        }
+        board
+    }
     fn get_piece(&self, position: (i32, i32)) -> Option<&ChessPiece> {
         self.pieces.get(&position)
     }
@@ -186,8 +215,24 @@ impl BoardState {
     }
 
     fn create_child_board(&self, start: (i32, i32), end: (i32, i32)) -> BoardState {
-        let mut new_board = self.clone();
+        let mut new_dict = HashMap::new();
+        for (&k, v) in &self.pieces {
+            new_dict.insert(k, v.clone());
+        }
+        let new_turn = self.turn.clone();
+        let new_turn_count = self.turn_count;
+        let new_black_locations = self.black_locations.clone();
+        let new_white_locations = self.white_locations.clone();
+
+        let mut new_board = BoardState {
+            pieces: new_dict,
+            turn: new_turn,
+            turn_count: new_turn_count,
+            black_locations: new_black_locations,
+            white_locations: new_white_locations,
+        };
         new_board.move_piece(start, end);
+
         new_board
     }
 
@@ -261,20 +306,15 @@ impl BoardState {
         false
     }
     fn get_king_position(&self, color: Color) -> (i32, i32) {
-        let locations: &Vec<(i32, i32)> = if color == Color::Black {
-            &self.black_locations
-        } else {
-            &self.white_locations
-        };
-
-        for &location in locations {
-            if let Some(piece) = self.get_piece(location) {
-                if piece.piece_type == PieceType::K {
-                    return location;
-                }
+        for (_, piece) in &self.pieces {
+            if piece.piece_type == PieceType::K && piece.color == color {
+                return piece.position;
             }
         }
-
+        let x = self.get_board_as_string();
+        println!("turn count: {:?}", self.turn_count);
+        println!("turn: {:?}", self.turn);
+        println!("board: {:?}", x);
         panic!("King not found");
     }
 
@@ -488,19 +528,19 @@ impl BoardState {
 
         let en_passant_row = if piece.color == Color::White { 3 } else { 4 };
         if x == en_passant_row {
-            println!("en passant row");
+            //println!("en passant row");
             let left = (x, y - 1);
             let right = (x, y + 1);
 
             if let Some(left_piece) = self.pieces.get(&left) {
-                println!("left piece: {:?}", left_piece);
+                /*println!("left piece: {:?}", left_piece);
                 println!("left piece color: {:?}", left_piece.color);
                 println!("left piece move count: {:?}", left_piece.move_count);
                 println!(
                     "left piece pawn double move at turn: {:?}",
                     left_piece.pawn_double_move_at_turn
-                );
-                println!("self move count: {:?}", self.turn_count);
+                );*/
+                //println!("self move count: {:?}", self.turn_count);
                 if left_piece.piece_type == PieceType::P
                     && left_piece.color != piece.color
                     && left_piece.move_count == 1
@@ -532,6 +572,71 @@ impl BoardState {
             Some(target_piece) => target_piece.color != piece.color,
             None => true,
         }
+    }
+    fn minimax(&self, depth: i32, mut alpha: i32, mut beta: i32, maximizing_player: bool) -> i32 {
+        if depth == 0 {
+            return self.evaluate_board();
+        }
+
+        if maximizing_player {
+            //println!("MAXX player, depth: {:?}", depth);
+            // black is the maximizing player
+            let moves = self.get_all_moves(Color::Black);
+            let mut max_eval = std::i32::MIN;
+            for &(start, end) in &moves {
+                let new_board = self.create_child_board(start, end);
+                let eval = new_board.minimax(depth - 1, alpha, beta, false);
+                max_eval = max_eval.max(eval);
+                alpha = alpha.max(eval);
+                if beta <= alpha {
+                    break;
+                }
+            }
+            max_eval
+        } else {
+            //println!("MINNN player, depth: {:?}", depth);
+            // white is the minimizing player
+            let moves: Vec<((i32, i32), (i32, i32))> = self.get_all_moves(Color::White);
+            let mut min_eval = std::i32::MAX;
+            for &(start, end) in &moves {
+                let new_board = self.create_child_board(start, end);
+                let eval = new_board.minimax(depth - 1, alpha, beta, true);
+                min_eval = min_eval.min(eval);
+                beta = beta.min(eval);
+                if beta <= alpha {
+                    break;
+                }
+            }
+            min_eval
+        }
+    }
+    fn is_it_checkmate(&self, color: Color) -> bool {
+        let moves = self.get_all_moves(color);
+        moves.is_empty()
+    }
+
+    fn evaluate_board(&self) -> i32 {
+        let mut score = 0;
+        /*if self.is_it_checkmate(Color::White) {
+            score = std::i32::MIN;
+            return score;
+        } else if self.is_it_checkmate(Color::Black) {
+            score = std::i32::MAX;
+            return score;
+        }*/
+        for (_, piece) in &self.pieces {
+            let piece_value = match piece.piece_type {
+                PieceType::P => 1,
+                PieceType::N => 3,
+                PieceType::B => 3,
+                PieceType::R => 5,
+                PieceType::Q => 9,
+                PieceType::K => 1000,
+            };
+            let color_value = if piece.color == Color::White { -1 } else { 1 };
+            score += piece_value * color_value;
+        }
+        score
     }
 }
 
@@ -573,34 +678,35 @@ impl PyBoardState {
     }
     // low case for black, upper case for white
     fn get_board_as_string(&self) -> String {
-        let mut board = String::new();
-        for i in 0..8 {
-            for j in 0..8 {
-                let piece = self.board_state.get_piece((i, j));
-                match piece {
-                    Some(piece) => {
-                        let piece_char = match piece.piece_type {
-                            PieceType::R => 'r',
-                            PieceType::N => 'n',
-                            PieceType::B => 'b',
-                            PieceType::Q => 'q',
-                            PieceType::K => 'k',
-                            PieceType::P => 'p',
-                        };
-                        let color_char = match piece.color {
-                            Color::White => piece_char.to_ascii_uppercase(),
-                            Color::Black => piece_char,
-                        };
-                        board.push(color_char);
-                    }
-                    None => {
-                        board.push('.');
-                    }
-                }
+        self.board_state.get_board_as_string()
+    }
+    fn get_best_move(&self) -> ((i32, i32), (i32, i32)) {
+        let mut best_move = ((-1, -1), (-1, -1));
+        let mut best_score = std::i32::MIN;
+        //let color = Color::Black; // black is the maximizing player
+
+        let moves = self.board_state.get_all_moves(Color::Black);
+        for &(start, end) in &moves {
+            /*test
+            let mut x = self.board_state.pieces.get(&start).unwrap();
+            let mut y = x.clone();
+            y.move_piece(end);
+            println!("test: {:?}", x);
+            println!("test: {:?}", y);
+            return ((-1, -1), (-1, -1));
+
+            //end test*/
+            let new_board = self.board_state.create_child_board(start, end);
+            //let max_player = color == Color::Black; // black is the maximizing player
+            let score = new_board.minimax(3, std::i32::MIN, std::i32::MAX, false);
+            if score > best_score {
+                best_score = score;
+                best_move = (start, end);
             }
-            board.push('\n');
         }
-        board
+        println!("best score: {:?}", best_score);
+        println!("best move: {:?}", best_move);
+        best_move
     }
 }
 
