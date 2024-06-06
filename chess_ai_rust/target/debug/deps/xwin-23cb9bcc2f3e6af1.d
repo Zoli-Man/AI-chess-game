@@ -1,0 +1,13 @@
+C:\Users\ozoll\PycharmProjects\chess\chess_ai\target\debug\deps\libxwin-23cb9bcc2f3e6af1.rmeta: C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\xwin-0.5.1\src\lib.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\xwin-0.5.1\src\ctx.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\xwin-0.5.1\src\download.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\xwin-0.5.1\src\manifest.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\xwin-0.5.1\src\minimize.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\xwin-0.5.1\src\splat.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\xwin-0.5.1\src\unpack.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\xwin-0.5.1\src\util.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\xwin-0.5.1\src\../README.md
+
+C:\Users\ozoll\PycharmProjects\chess\chess_ai\target\debug\deps\xwin-23cb9bcc2f3e6af1.d: C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\xwin-0.5.1\src\lib.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\xwin-0.5.1\src\ctx.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\xwin-0.5.1\src\download.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\xwin-0.5.1\src\manifest.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\xwin-0.5.1\src\minimize.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\xwin-0.5.1\src\splat.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\xwin-0.5.1\src\unpack.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\xwin-0.5.1\src\util.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\xwin-0.5.1\src\../README.md
+
+C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\xwin-0.5.1\src\lib.rs:
+C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\xwin-0.5.1\src\ctx.rs:
+C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\xwin-0.5.1\src\download.rs:
+C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\xwin-0.5.1\src\manifest.rs:
+C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\xwin-0.5.1\src\minimize.rs:
+C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\xwin-0.5.1\src\splat.rs:
+C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\xwin-0.5.1\src\unpack.rs:
+C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\xwin-0.5.1\src\util.rs:
+C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\xwin-0.5.1\src\../README.md:

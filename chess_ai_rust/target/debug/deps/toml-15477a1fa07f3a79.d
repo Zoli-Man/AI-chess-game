@@ -1,0 +1,13 @@
+C:\Users\ozoll\PycharmProjects\chess\chess_ai\target\debug\deps\libtoml-15477a1fa07f3a79.rmeta: C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\toml-0.8.13\src\lib.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\toml-0.8.13\src\map.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\toml-0.8.13\src\value.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\toml-0.8.13\src\de.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\toml-0.8.13\src\ser.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\toml-0.8.13\src\macros.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\toml-0.8.13\src\edit.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\toml-0.8.13\src\fmt.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\toml-0.8.13\src\table.rs
+
+C:\Users\ozoll\PycharmProjects\chess\chess_ai\target\debug\deps\toml-15477a1fa07f3a79.d: C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\toml-0.8.13\src\lib.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\toml-0.8.13\src\map.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\toml-0.8.13\src\value.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\toml-0.8.13\src\de.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\toml-0.8.13\src\ser.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\toml-0.8.13\src\macros.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\toml-0.8.13\src\edit.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\toml-0.8.13\src\fmt.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\toml-0.8.13\src\table.rs
+
+C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\toml-0.8.13\src\lib.rs:
+C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\toml-0.8.13\src\map.rs:
+C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\toml-0.8.13\src\value.rs:
+C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\toml-0.8.13\src\de.rs:
+C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\toml-0.8.13\src\ser.rs:
+C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\toml-0.8.13\src\macros.rs:
+C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\toml-0.8.13\src\edit.rs:
+C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\toml-0.8.13\src\fmt.rs:
+C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\toml-0.8.13\src\table.rs:

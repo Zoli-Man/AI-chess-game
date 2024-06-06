@@ -1,0 +1,10 @@
+C:\Users\ozoll\PycharmProjects\chess\chess_ai\target\debug\deps\librfc2047_decoder-0de74a719e585bfd.rmeta: C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rfc2047-decoder-1.0.5\src\lib.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rfc2047-decoder-1.0.5\src\decoder.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rfc2047-decoder-1.0.5\src\evaluator.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rfc2047-decoder-1.0.5\src\lexer\mod.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rfc2047-decoder-1.0.5\src\lexer\encoded_word.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rfc2047-decoder-1.0.5\src\parser.rs
+
+C:\Users\ozoll\PycharmProjects\chess\chess_ai\target\debug\deps\rfc2047_decoder-0de74a719e585bfd.d: C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rfc2047-decoder-1.0.5\src\lib.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rfc2047-decoder-1.0.5\src\decoder.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rfc2047-decoder-1.0.5\src\evaluator.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rfc2047-decoder-1.0.5\src\lexer\mod.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rfc2047-decoder-1.0.5\src\lexer\encoded_word.rs C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rfc2047-decoder-1.0.5\src\parser.rs
+
+C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rfc2047-decoder-1.0.5\src\lib.rs:
+C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rfc2047-decoder-1.0.5\src\decoder.rs:
+C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rfc2047-decoder-1.0.5\src\evaluator.rs:
+C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rfc2047-decoder-1.0.5\src\lexer\mod.rs:
+C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rfc2047-decoder-1.0.5\src\lexer\encoded_word.rs:
+C:\Users\ozoll\.cargo\registry\src\index.crates.io-6f17d22bba15001f\rfc2047-decoder-1.0.5\src\parser.rs:
