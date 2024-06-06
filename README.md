@@ -1,5 +1,7 @@
 # Chess AI Game
 
+![Chess Board](assets\images\readme_1.png)
+
 ## Description
 
 This project implements a chess game where a user can play against an AI. The AI is implemented using Rust, with the core logic interfacing with Python via the `pyo3` crate. This combination allows for a powerful and efficient AI integrated with a Python-based interface.
@@ -46,6 +48,5 @@ This command will build the Rust extension and install it locally in your Python
 3.Run main.py to play:
 
 ```bash
-python main.py
 python main.py
 ```
