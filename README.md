@@ -1,6 +1,6 @@
 # Chess AI Game
 
-![Chess Board](chess\assets\images\readme_1.png)
+![Chess Board](assets\images\readme_1.png)
 
 ## Description
 
