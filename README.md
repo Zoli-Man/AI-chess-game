@@ -47,4 +47,5 @@ This command will build the Rust extension and install it locally in your Python
 
 ```bash
 python main.py
+python main.py
 ```
