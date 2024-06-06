@@ -43,12 +43,10 @@ maturin develop
 
 This command will build the Rust extension and install it locally in your Python environment.
 
-3.Run the test script to ensure everything is working:
+3.Run the main script to play:
 
 ```bash
-python test.py
+python main.py
 ```
 
-# Usage
 
-Once the installation is complete, you can use the chess AI via the Python interface. Below is an example of how to interact with the AI in a Python script:
